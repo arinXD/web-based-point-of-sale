@@ -1,0 +1,58 @@
+package com.bidmoncafe.bidmodCafe.controller;
+
+import java.lang.ProcessBuilder.Redirect;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.bidmoncafe.bidmodCafe.model.OrderDetail;
+import com.bidmoncafe.bidmodCafe.model.RestaurantOrder;
+import com.bidmoncafe.bidmodCafe.repository.BilllRepository;
+import com.bidmoncafe.bidmodCafe.repository.HistoryRepository;
+
+
+@Controller
+public class BillController {
+	
+	@Autowired
+    private BilllRepository repo;
+    
+    @Autowired
+    private HistoryRepository orderRepository;
+
+    @GetMapping("/orderdetail")
+    public String fetchData(Model model) {
+        List<OrderDetail> orderDetailList = repo.fetchData();
+        model.addAttribute("orderDetails", orderDetailList);
+        return "orderdetail";
+    }
+
+    @GetMapping("/orderdetail/{orderId}")
+    public String getOrderDetailsByOrderId(@PathVariable Integer orderId, Model model) {
+        // ค้นหาข้อมูลของ Order ด้วย Order ID ที่ระบุ
+        Optional<RestaurantOrder> orderOptional = orderRepository.findById(orderId);
+
+        if (orderOptional.isEmpty()) {
+            model.addAttribute("orderDetails", Collections.emptyList());
+            return "checkbill"; 
+        }
+        List<OrderDetail> orderDetails = repo.findByOrderId(orderId);
+        model.addAttribute("orderDetails", orderDetails);
+        return "checkbill";
+    }
+    
+    
+    
+}

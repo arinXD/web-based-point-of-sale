@@ -1,0 +1,47 @@
+package com.bidmoncafe.bidmodCafe.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.bidmoncafe.bidmodCafe.middleware.AuthMiddleware;
+import com.bidmoncafe.bidmodCafe.model.RestaurantOrder;
+import com.bidmoncafe.bidmodCafe.model.User;
+import com.bidmoncafe.bidmodCafe.repository.OrderRepository;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class HomeController {
+	
+	@Autowired
+	OrderRepository orderRepository; 
+	
+	@GetMapping("/")
+	public String welcome(Model model,
+			HttpServletRequest request) {
+		
+		String path = AuthMiddleware.isAuth(request, "index");
+		Iterable<RestaurantOrder> tableOrders = orderRepository.findByOrderType("table");
+		Iterable<RestaurantOrder> takeHomeOrders = orderRepository.findByOrderType("takeHome");
+
+		model.addAttribute("message", "Welcome to Bidmod Cafe! Path(/)");
+		model.addAttribute("tableOrders", tableOrders);
+		model.addAttribute("takeHomeOrders", takeHomeOrders);
+		
+		return path;
+	}
+	
+	@GetMapping("/test")
+	public String welcome2(Model model,
+			HttpServletRequest request) {
+		String path = AuthMiddleware.isAuth(request, "index");
+		return path;
+	}
+}
