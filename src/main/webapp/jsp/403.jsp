@@ -7,6 +7,6 @@
 <title>Access Denied</title>
 </head>
 <body>
-	<h2>Sorry, you don't have permission! act</h2>
+	<h2>Sorry, you don't have permission! acting</h2>
 </body>
 </html>
