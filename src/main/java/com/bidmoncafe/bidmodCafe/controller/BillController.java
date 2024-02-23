@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.bidmoncafe.bidmodCafe.middleware.AuthMiddleware;
 import com.bidmoncafe.bidmodCafe.model.OrderDetail;
 import com.bidmoncafe.bidmodCafe.model.RestaurantOrder;
 import com.bidmoncafe.bidmodCafe.repository.BilllRepository;
 import com.bidmoncafe.bidmodCafe.repository.HistoryRepository;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 
 @Controller
@@ -33,15 +36,16 @@ public class BillController {
     private HistoryRepository orderRepository;
 
     @GetMapping("/orderdetail")
-    public String fetchData(Model model) {
+    public String fetchData(Model model, HttpServletRequest request) {
+    	String path = AuthMiddleware.isAuth(request, "orderdetail");
         List<OrderDetail> orderDetailList = repo.fetchData();
         model.addAttribute("orderDetails", orderDetailList);
-        return "orderdetail";
+        return path;
     }
 
     @GetMapping("/orderdetail/{orderId}")
-    public String getOrderDetailsByOrderId(@PathVariable Integer orderId, Model model) {
-        // ค้นหาข้อมูลของ Order ด้วย Order ID ที่ระบุ
+    public String getOrderDetailsByOrderId(HttpServletRequest request, @PathVariable Integer orderId, Model model) {
+    	String path = AuthMiddleware.isAuth(request, "checkbill");
         Optional<RestaurantOrder> orderOptional = orderRepository.findById(orderId);
 
         if (orderOptional.isEmpty()) {
@@ -50,7 +54,7 @@ public class BillController {
         }
         List<OrderDetail> orderDetails = repo.findByOrderId(orderId);
         model.addAttribute("orderDetails", orderDetails);
-        return "checkbill";
+        return path;
     }
     
     

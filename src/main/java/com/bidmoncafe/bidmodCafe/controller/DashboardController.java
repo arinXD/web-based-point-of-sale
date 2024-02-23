@@ -9,8 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.bidmoncafe.bidmodCafe.middleware.AuthMiddleware;
 import com.bidmoncafe.bidmodCafe.model.OrderDetail;
 import com.bidmoncafe.bidmodCafe.repository.BilllRepository;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class DashboardController {
@@ -19,7 +22,8 @@ public class DashboardController {
     private BilllRepository dashboardRepo;
     
     @GetMapping("/dashboard")
-    public String fetchData(Model model) {
+    public String fetchData(Model model, HttpServletRequest request) {
+    	String path = AuthMiddleware.isAuth(request, "dashboard");
         List<OrderDetail> dashboard = dashboardRepo.fetchData();
         
         // Calculate total quantity and total price
@@ -44,6 +48,6 @@ public class DashboardController {
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("menuSalesPercentage", menuSalesPercentage);
         
-        return "dashboard";
+        return path;
     }
 }

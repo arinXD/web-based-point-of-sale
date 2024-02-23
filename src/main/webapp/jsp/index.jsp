@@ -29,7 +29,7 @@
 								<a href="/orders?orderId=${tableOrder.orderId}" class="relative p-3 bg-[#49C77B] rounded-md flex flex-row justify-center items-center px-10">
 									<div class="text-white text-lg font-bold flex flex-col justify-center items-center p-2">
 										<div>Table</div>
-										<div>${tableOrder.restaurantTable.tableId}</div>
+										<div>${tableOrder.restaurantTable.title}</div>
 									</div>
 									<div class="absolute flex flex-col justify-center top-[7%] right-[3%]">
 										<div class="bg-[#FDEDD3] text-[#C3841D] border border-2 border-[#C3841D] flex flex-row items-center gap-2 justify-center px-[.5em] py-[.1em] rounded-[2em]">

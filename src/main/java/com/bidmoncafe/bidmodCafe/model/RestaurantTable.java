@@ -18,7 +18,7 @@ public class RestaurantTable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int tableId;
 	private String title;
-	private int status;
+	private boolean status;
 	
 	@OneToMany(mappedBy = "restaurantTable", cascade = CascadeType.ALL)
 	@JsonIgnore
@@ -40,11 +40,11 @@ public class RestaurantTable {
 		this.title = title;
 	}
 
-	public int getStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(boolean status) {
 		this.status = status;
 	}
 
@@ -56,7 +56,7 @@ public class RestaurantTable {
 		this.orders = orders;
 	}
 
-	public RestaurantTable(int tableId, String title, int status, List<RestaurantOrder> orders) {
+	public RestaurantTable(int tableId, String title, boolean status, List<RestaurantOrder> orders) {
 		super();
 		this.tableId = tableId;
 		this.title = title;

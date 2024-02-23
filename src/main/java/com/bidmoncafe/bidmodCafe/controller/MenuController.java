@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.bidmoncafe.bidmodCafe.middleware.AuthMiddleware;
 import com.bidmoncafe.bidmodCafe.model.Category;
 import com.bidmoncafe.bidmodCafe.model.Product;
 import com.bidmoncafe.bidmodCafe.repository.BilllRepository;
 import com.bidmoncafe.bidmodCafe.repository.MenuRepository;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class MenuController {
@@ -27,16 +30,19 @@ public class MenuController {
 	private BilllRepository orderDetailRepo;
 	
 	@GetMapping("/menu")
-	public String fetchMenu(Model model) {
+	public String fetchMenu(HttpServletRequest request, Model model) {
+		String path = AuthMiddleware.isAuth(request, "menu");
 		Iterable<Product> menus = menuRepo.findAll();
         model.addAttribute("menus", menus);
-		return "menu";
+		return path;
 	}
 	
 	@PostMapping("/menu")
-	public String insertMenu(@RequestParam String name, 
+	public String insertMenu(HttpServletRequest request,
+							 @RequestParam String name, 
 	                         @RequestParam double price, 
 	                         @RequestParam int categoryId) {
+		String path = AuthMiddleware.isAuth(request, "redirect:/menu");
 	    Product product = new Product();
 	    product.setProductTitle(name);
 	    product.setProductPrice(price);
@@ -46,7 +52,7 @@ public class MenuController {
 	    product.setCategory(category);
 	    
 	    menuRepo.save(product);
-	    return "redirect:/menu"; 
+	    return path; 
 	}
 
 	
