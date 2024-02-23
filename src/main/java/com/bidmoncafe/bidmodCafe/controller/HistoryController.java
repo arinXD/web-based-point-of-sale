@@ -6,10 +6,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.bidmoncafe.bidmodCafe.middleware.AuthMiddleware;
 import com.bidmoncafe.bidmodCafe.model.RestaurantOrder;
 import com.bidmoncafe.bidmodCafe.model.RestaurantTable;
 import com.bidmoncafe.bidmodCafe.repository.BilllRepository;
 import com.bidmoncafe.bidmodCafe.repository.HistoryRepository;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class HistoryController {
@@ -21,18 +25,20 @@ public class HistoryController {
     BilllRepository billRepo;
     
     @GetMapping("/history")
-    public String getAllOrders(Model model) {
+    public String getAllOrders(HttpServletRequest request, Model model) {
+    	String path = AuthMiddleware.isAuth(request, "history");
     	Iterable<RestaurantOrder> orders = historyRepo.findAll();
     	model.addAttribute("orders", orders);
-        return "history";
+        return path;
     }
     
     @PostMapping("/history")
-    public String calculateChange(@RequestParam("amountPaid") double amountPaid,
+    public String calculateChange(HttpServletRequest request,
+    							  @RequestParam("amountPaid") double amountPaid,
                                   @RequestParam("totalPrice") double totalPrice, 
                                   @RequestParam("orderId") int orderId,
                                   @RequestParam(value = "method", required = false) String method, Model model) {
-    	
+    	String path = AuthMiddleware.isAuth(request, "bill");
     	if (method == null || method.isEmpty()) {
             method = "cash";
         }else {
@@ -55,14 +61,13 @@ public class HistoryController {
                 bill.setStatus(1);
             
             } else {
-                table.setStatus(0);
+                table.setStatus(false);
                 bill.setStatus(1);
             }
             historyRepo.save(bill);
         }
         model.addAttribute("bills", bill);
-        return "bill";
-        //dsdsdsds
+        return path;
     }
 
 }

@@ -29,8 +29,8 @@ public class AuthController {
 		return currentUser;
 	}
 	
-	public void setCurrentUser(User currentUser) {
-		this.currentUser = currentUser;
+	public static void setCurrentUser(User currentUser) {
+		AuthController.currentUser = currentUser;
 	}
 
 

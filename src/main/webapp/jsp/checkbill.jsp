@@ -39,7 +39,7 @@
         <thead>
             <tr>
                 <td>Table:</td>
-                <td>${orderDetails[0].restaurantOrder.restaurantTable.title}</td>
+                <td>${orderDetails[0].restaurantOrder.restaurantTable.tableId}</td>
                 <td>${orderDetails[0].restaurantOrder.orderType}</td>
             </tr>
             <tr>

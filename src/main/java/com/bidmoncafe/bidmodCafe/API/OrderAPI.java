@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bidmoncafe.bidmodCafe.DTO.OrderDTO;
 import com.bidmoncafe.bidmodCafe.DTO.OrderDetailDTO;
 import com.bidmoncafe.bidmodCafe.model.OrderDetail;
 import com.bidmoncafe.bidmodCafe.model.Product;
@@ -22,6 +23,11 @@ import com.bidmoncafe.bidmodCafe.model.RestaurantTable;
 import com.bidmoncafe.bidmodCafe.repository.OrderDetailRepository;
 import com.bidmoncafe.bidmodCafe.repository.OrderRepository;
 import com.bidmoncafe.bidmodCafe.repository.ProductRepository;
+import com.bidmoncafe.bidmodCafe.repository.TableRepository;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -35,6 +41,9 @@ public class OrderAPI {
 
 	@Autowired
 	OrderDetailRepository orderDetailRepository;
+	
+	@Autowired
+	TableRepository tableRepository;
 
 	@GetMapping
 	public List<RestaurantOrder> getOrders() {
@@ -65,11 +74,11 @@ public class OrderAPI {
 	}
 
 	@PutMapping("/{id}/details")
-	public void updateOrderDetails(@PathVariable int id ,@RequestBody List<OrderDetailDTO> orderDetailDtoList ) {
+	public void updateOrderDetails(@PathVariable int id ,@RequestBody OrderDTO orderDto ) {
 		Optional<RestaurantOrder> orderOptional = orderRepository.findById(id);
 		RestaurantOrder order = orderOptional.orElse(null);
 		ArrayList<Integer> odIdList = new ArrayList<Integer>(){};
-		for(OrderDetailDTO od: orderDetailDtoList) {
+		for(OrderDetailDTO od: orderDto.orderDetail) {
 			Optional<Product> productOptional = productRepository.findById(od.pid);
 			Product product = productOptional.orElse(null); 
 			
@@ -98,12 +107,12 @@ public class OrderAPI {
 	}
 
 	@PostMapping
-	public RestaurantOrder createOrder(@RequestBody List<OrderDetailDTO> orderDetailDtoList) {
+	public RestaurantOrder createOrder(@RequestBody OrderDTO order) {
 		RestaurantOrder newOrder = new RestaurantOrder();
+		newOrder.setOrderType(order.orderType);
 		int total = 0;
-		ArrayList<OrderDetail> orderDatails = new ArrayList() {
-		};
-		for (OrderDetailDTO od : orderDetailDtoList) {
+		ArrayList<OrderDetail> orderDatails = new ArrayList() {};
+		for (OrderDetailDTO od : order.orderDetail) {
 			Optional<Product> productOptional = productRepository.findById(od.pid);
 			Product product = productOptional.orElse(null);
 			OrderDetail orderDetail = new OrderDetail();
@@ -116,13 +125,37 @@ public class OrderAPI {
 		}
 		newOrder.setTotal(total);
 		newOrder.setDate(new Date());
-		newOrder.setOrderType("takeHome");
+		newOrder.setOrderType(order.orderType);
 		newOrder.setStatus(0);
-//		newOrder.setRestaurantTable(null);
 		newOrder.setOrderDetails(orderDatails);
 		orderRepository.save(newOrder);
-		System.out.println(newOrder.getOrderId());
+		
 		return newOrder;
 	}
+	
+	@PutMapping("/{oid}/tables/{tid}")
+	public RestaurantOrder updateOrder(@PathVariable int oid ,@PathVariable int tid) {
+		try {			
+			RestaurantTable table = new RestaurantTable();
+			Optional<RestaurantOrder> orderOptin = orderRepository.findById(oid);
+			RestaurantOrder order = orderOptin.orElse(null);
+			table.setTableId(tid);
+			table.setStatus(true);
+			tableRepository.save(table);
+			order.setRestaurantTable(table);
+			orderRepository.save(order);
+			return order;
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
 
+}
+
+class ResponseDTO{
+	public boolean ok;
+	public ResponseDTO(boolean ok) {
+		this.ok = ok;
+	}
 }
