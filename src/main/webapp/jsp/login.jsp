@@ -7,6 +7,9 @@
 		<jsp:include page="components/Header.jsp" />
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
 		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+		<link href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css" rel="stylesheet">
+
 		<title>Bidmod Cafe - Login</title>
 		<title>Please Log In</title>
 	</head>
@@ -37,7 +40,8 @@
 							<label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password:</label>
 							<input type="password" name="password" value="" id="password"
 								class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-								placeholder="" required />
+								placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
+								required />
 						</div>
 						<div>
 							<button type="button" onclick="login()"
@@ -73,10 +77,22 @@
 				try {
 					const res = await axios(options);
 					const data = res.data
-					if(data.ok){
+					if (data.ok) {
 						window.location.href = "/";
-					}else{
-						alert(data.message)
+					} else {
+						Toastify({
+							text: data.message,
+							duration: 3000,
+							close: true,
+							style: {
+								background: "red",
+								borderRadius: "10px"
+							},
+							gravity: "top", // `top` or `bottom`
+							position: "center", // `left`, `center` or `right`
+							backgroundColor: "red", // Background color set to red
+							onClick: function () { } // Callback after click
+						}).showToast();
 					}
 				} catch (error) {
 					console.log(error);

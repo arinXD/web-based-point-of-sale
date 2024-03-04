@@ -1,46 +1,17 @@
-<%@ page language="java"
-contentType="text/html; charset=ISO-8859-1"
-pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <html>
 <head>
-<style>
-table td{
-vertical-align:top;
-border:solid 1px #888;
-padding:10px;
-}
-</style>
+<jsp:include page="components/Header.jsp" />
+<title>Bidmod Cafe</title>
 </head>
 <body>
-    <h1>My Error Page</h1>
-    <a href="/">Home<a/>
-    <table>
-        <tr>
-            <td>Date</td>
-            <td>${timestamp}</td>
-        </tr>
-        <tr>
-            <td>Error</td>
-            <td>${error}</td>
-        </tr>
-        <tr>
-            <td>Status</td>
-            <td>${status}</td>
-        </tr>
-        <tr>
-            <td>Message</td>
-            <td>${message}</td>
-        </tr>
-        <tr>
-            <td>Exception</td>
-            <td>${exception}</td>
-        </tr>
-        <tr>
-            <td>Trace</td>
-            <td>
-                <pre>${trace}</pre>
-            </td>
-        </tr>
-    </table>
+	<div class="w-fit h-fit mx-auto my-[10em]">
+		<h1 class="text-center text-4xl mb-10">${status} - ${error}</h1>
+		<div class="flex justify-center">
+			<a href="/"
+				class="w-fit inline-block px-5 py-3 rounded-lg bg-green-500 text-white mx-auto">Home<a />
+		</div>
+	</div>
 </body>
 </html>

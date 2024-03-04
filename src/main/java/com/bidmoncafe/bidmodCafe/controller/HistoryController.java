@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.bidmoncafe.bidmodCafe.middleware.AuthMiddleware;
 import com.bidmoncafe.bidmodCafe.model.RestaurantOrder;
 import com.bidmoncafe.bidmodCafe.model.RestaurantTable;
-import com.bidmoncafe.bidmodCafe.repository.BilllRepository;
+import com.bidmoncafe.bidmodCafe.repository.BillRepository;
 import com.bidmoncafe.bidmodCafe.repository.HistoryRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,18 +22,19 @@ public class HistoryController {
     HistoryRepository historyRepo;
     
     @Autowired
-    BilllRepository billRepo;
+    BillRepository billRepo;
     
     @GetMapping("/history")
-    public String getAllOrders(HttpServletRequest request, Model model) {
+    public String getAllOrders(Model model, HttpServletRequest request) {
     	String path = AuthMiddleware.isAuth(request, "history");
-    	Iterable<RestaurantOrder> orders = historyRepo.findAll();
-    	model.addAttribute("orders", orders);
+    	Iterable<RestaurantOrder> order = historyRepo.findByStatus(1);
+        model.addAttribute("orders", order);
         return path;
     }
     
     @PostMapping("/history")
-    public String calculateChange(HttpServletRequest request,
+    public String calculateChange(
+    		 					  HttpServletRequest request,
     							  @RequestParam("amountPaid") double amountPaid,
                                   @RequestParam("totalPrice") double totalPrice, 
                                   @RequestParam("orderId") int orderId,

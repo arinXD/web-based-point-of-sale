@@ -5,4 +5,5 @@ import com.bidmoncafe.bidmodCafe.model.RestaurantOrder;
 
 public interface HistoryRepository extends CrudRepository<RestaurantOrder, Integer> {
 	RestaurantOrder findById(int orderId);
+	Iterable<RestaurantOrder> findByStatus(int status);
 }
