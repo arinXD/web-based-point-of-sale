@@ -41,12 +41,6 @@ public class HomeController {
 		return path;
 	}
 	
-	@GetMapping("/test")
-	public String welcome2(Model model,
-			HttpServletRequest request) {
-		String path = AuthMiddleware.isAuth(request, "index");
-		return path;
-	}
 	@GetMapping("/error")
 	public String handleError(HttpServletRequest request) {
 	    Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);

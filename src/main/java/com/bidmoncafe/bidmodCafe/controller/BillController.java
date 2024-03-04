@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.bidmoncafe.bidmodCafe.middleware.AuthMiddleware;
 import com.bidmoncafe.bidmodCafe.model.OrderDetail;
 import com.bidmoncafe.bidmodCafe.model.RestaurantOrder;
-import com.bidmoncafe.bidmodCafe.repository.BilllRepository;
+import com.bidmoncafe.bidmodCafe.repository.BillRepository;
 import com.bidmoncafe.bidmodCafe.repository.HistoryRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,7 +30,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class BillController {
 	
 	@Autowired
-    private BilllRepository repo;
+    private BillRepository repo;
     
     @Autowired
     private HistoryRepository orderRepository;

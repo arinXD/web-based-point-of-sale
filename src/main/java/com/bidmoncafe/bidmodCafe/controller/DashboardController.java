@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.bidmoncafe.bidmodCafe.middleware.AuthMiddleware;
 import com.bidmoncafe.bidmodCafe.model.OrderDetail;
-import com.bidmoncafe.bidmodCafe.repository.BilllRepository;
+import com.bidmoncafe.bidmodCafe.repository.BillRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -19,14 +19,13 @@ import jakarta.servlet.http.HttpServletRequest;
 public class DashboardController {
     
     @Autowired
-    private BilllRepository dashboardRepo;
+    private BillRepository dashboardRepo;
     
     @GetMapping("/dashboard")
     public String fetchData(Model model, HttpServletRequest request) {
     	String path = AuthMiddleware.isAuth(request, "dashboard");
         List<OrderDetail> dashboard = dashboardRepo.fetchData();
         
-        // Calculate total quantity and total price
         int totalQuantity = 0;
         double totalPrice = 0;
         for (OrderDetail orderDetail : dashboard) {
@@ -34,7 +33,6 @@ public class DashboardController {
             totalPrice += orderDetail.getPrice();
         }
         
-        // Calculate percentage of total sales for each menu
         Map<String, Double> menuSalesPercentage = new HashMap<>();
         for (OrderDetail orderDetail : dashboard) {
             String menuName = orderDetail.getProduct().getProductTitle();
