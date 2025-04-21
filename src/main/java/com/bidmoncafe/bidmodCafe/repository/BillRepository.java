@@ -1,9 +1,6 @@
 package com.bidmoncafe.bidmodCafe.repository;
 
 import java.util.List;
-import java.util.Map;
-
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.bidmoncafe.bidmodCafe.model.OrderDetail;
@@ -15,7 +12,6 @@ import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Calendar;
 
 @Repository
 public class BillRepository {
