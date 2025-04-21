@@ -10,7 +10,7 @@ public class AuthMiddleware {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		String path;
-		path = user!=null ? target:"redirect:/login";
+		path = user != null ? target : "redirect:/login";
 		if(path.contains("login") && user==null) {
 			path = "login";
 		}else if(!path.contains("login") && user==null) {
@@ -19,8 +19,5 @@ public class AuthMiddleware {
 			path = target;
 		}
 		return path;
-	}
-	public void isAdmin() {
-		
 	}
 }

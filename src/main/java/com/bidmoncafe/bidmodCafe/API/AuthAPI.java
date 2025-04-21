@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.bidmoncafe.bidmodCafe.DTO.LoginDTO;
 import com.bidmoncafe.bidmodCafe.DTO.ResponseLogin;
@@ -22,6 +22,7 @@ public class AuthAPI {
 	
 	@Autowired
 	UserRepository userRepository;
+	private BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 	
 	@PostMapping("/register")
 	public User register(@RequestBody LoginDTO loginDto) {
@@ -45,7 +46,7 @@ public class AuthAPI {
 			res.message = "Incorrect email.";
 			return res;
 		} else {
-			if(!(user.getPassword().equals(loginDto.getPassword()))) {
+			if(!(bcrypt.matches(loginDto.getPassword(), user.getPassword()))) {
 				res.ok = false;
 				res.message = "Incorrect password.";
 				return res;

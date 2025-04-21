@@ -1,27 +1,19 @@
 package com.bidmoncafe.bidmodCafe.API;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bidmoncafe.bidmodCafe.DTO.DashboardDTO;
-import com.bidmoncafe.bidmodCafe.middleware.AuthMiddleware;
-import com.bidmoncafe.bidmodCafe.model.OrderDetail;
 import com.bidmoncafe.bidmodCafe.repository.BillRepository;
 import com.bidmoncafe.bidmodCafe.repository.OrderRepository;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/dashboard")

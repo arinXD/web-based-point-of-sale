@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <jsp:include page="components/Header.jsp" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
 <meta charset="UTF-8">
 <title>User</title>
 </head>
@@ -51,7 +53,7 @@
 								</button>
 							</div>
 							<!-- Modal body -->
-							<form class="p-4 md:p-5" action="/user" method="post">
+							<form id="addUserForm" class="p-4 md:p-5" action="/user" method="post">
 								<div class="grid gap-4 mb-4 grid-cols-2">
 									<div class="col-span-2">
 										<label for="name"
@@ -102,16 +104,21 @@
 					</thead>
 					<tbody>
 						<c:forEach items="${users}" var="user" varStatus="loop">
-							<tr class="">
+							<tr>
 								<th scope="row"
 									class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${user.id}
 								</th>
 								<td class="px-6 py-4 text-gray-900">${user.name}</td>
 								<td class="px-6 py-4 text-gray-900">${user.email}</td>
-								<td
-									class="px-6 py-4 text-blue-700 font-bold hover:text-blue-500"><a
-									href="/user/${user.id}"
-									onclick="return confirm('Are you sure you want to delete User')">Delete</a>
+								<td class="px-6 py-4 text-blue-700 font-bold hover:text-blue-500">
+									<c:choose>
+										<c:when test="${currentUser.email != user.email}">
+											<a class="text-red-700 hover:text-red-500" href="/user/${user.id}" onclick="return confirm('Are you sure you want to delete User?')">Delete</a>
+										</c:when>
+										<c:otherwise>
+											<a class="text-gray-500">Delete</a>
+										</c:otherwise>
+									</c:choose>
 								</td>
 							</tr>
 						</c:forEach>
@@ -122,7 +129,6 @@
 		</div>
 		${errorMessage}
 	</div>
-
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>

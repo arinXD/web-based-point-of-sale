@@ -25,10 +25,6 @@ import com.bidmoncafe.bidmodCafe.repository.OrderRepository;
 import com.bidmoncafe.bidmodCafe.repository.ProductRepository;
 import com.bidmoncafe.bidmodCafe.repository.TableRepository;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
 @RestController
 @RequestMapping("/api/orders")
 public class OrderAPI {

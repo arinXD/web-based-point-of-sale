@@ -1,7 +1,5 @@
 package com.bidmoncafe.bidmodCafe.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,14 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.bidmoncafe.bidmodCafe.middleware.AuthMiddleware;
 import com.bidmoncafe.bidmodCafe.model.RestaurantOrder;
-import com.bidmoncafe.bidmodCafe.model.User;
 import com.bidmoncafe.bidmodCafe.repository.OrderRepository;
 
 import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class HomeController {

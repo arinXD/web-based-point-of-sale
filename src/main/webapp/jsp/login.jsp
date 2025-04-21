@@ -53,13 +53,9 @@
 		</div>
 
 		<script>
-			function hashPassword(string) {
-				return CryptoJS.SHA1(string).toString(CryptoJS.enc.Hex);
-			}
 			async function login() {
 				const email = document.getElementById("email").value;
 				const password = document.getElementById("password").value;
-				const hashPw = hashPassword(password)
 
 				const options = {
 					method: "POST",
@@ -69,8 +65,8 @@
 						'Content-Type': 'application/json;charset=UTF-8'
 					},
 					data: {
-						email: email,
-						password: hashPw
+						email,
+						password
 					}
 				};
 

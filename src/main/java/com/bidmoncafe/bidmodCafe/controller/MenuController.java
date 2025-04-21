@@ -1,22 +1,16 @@
 package com.bidmoncafe.bidmodCafe.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bidmoncafe.bidmodCafe.middleware.AuthMiddleware;
 import com.bidmoncafe.bidmodCafe.model.Category;
 import com.bidmoncafe.bidmodCafe.model.Product;
-import com.bidmoncafe.bidmodCafe.repository.BillRepository;
 import com.bidmoncafe.bidmodCafe.repository.MenuRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,9 +20,6 @@ public class MenuController {
 	
 	@Autowired
 	private MenuRepository menuRepo;
-	
-	@Autowired
-	private BillRepository orderDetailRepo;
 	
 	@GetMapping("/menu")
 	public String fetchMenu(Model model, HttpServletRequest request) {
